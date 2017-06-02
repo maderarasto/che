@@ -1,0 +1,7 @@
+# Netbeans specific
+nbproject/*
+!nbproject/project.properties
+!nbproject/project.xml
+
+# JAVA specific
+*.class
