@@ -7,12 +7,14 @@ package ChessPieces;
 
 /**
  *
- * @author rasto
+ * @author Rastislav Maděra
  */
 public class Bishop extends ChessPiece {
 
-    public Bishop(int x, int y) {
-        super(x, y);
+    public Bishop(boolean isLeft) {
+        super(isLeft ? Locations.LEFT_BISHOP.ordinal() :
+                Locations.RIGHT_BISHOP.ordinal()
+        );
     }
     
     @Override

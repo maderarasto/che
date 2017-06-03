@@ -11,8 +11,15 @@ package ChessPieces;
  */
 public abstract class ChessPiece {
     
+    private static final int HIGH_PIECES_POSITION = 1;
+    
     protected int x;
     protected int y;
+    
+    public ChessPiece(int x) {
+        this.x = x;
+        this.y = HIGH_PIECES_POSITION;
+    }
     
     public ChessPiece(int x, int y) {
         this.x = x;

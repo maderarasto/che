@@ -7,12 +7,12 @@ package ChessPieces;
 
 /**
  *
- * @author rasto
+ * @author Rastislav Maděra
  */
 public class King extends ChessPiece {
 
-    public King(int x, int y) {
-        super(x, y);
+    public King() {
+        super(Locations.KING.ordinal());
     }
     
     @Override

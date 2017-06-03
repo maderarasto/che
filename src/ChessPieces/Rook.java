@@ -7,12 +7,14 @@ package ChessPieces;
 
 /**
  *
- * @author rasto
+ * @author Rastislav Maděra
  */
 public class Rook extends ChessPiece {
 
-    public Rook(int x, int y) {
-        super(x, y);
+    public Rook(boolean isLeft) {
+        super(isLeft ? Locations.LEFT_ROOK.ordinal() : 
+                Locations.RIGHT_ROOK.ordinal()
+        );
     }
     
     @Override

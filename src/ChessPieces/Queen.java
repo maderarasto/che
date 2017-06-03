@@ -7,12 +7,12 @@ package ChessPieces;
 
 /**
  *
- * @author rasto
+ * @author Rastislav Maděra
  */
 public class Queen extends ChessPiece {
 
-    public Queen(int x, int y) {
-        super(x, y);
+    public Queen() {
+        super(Locations.QUEEN.ordinal());
     }
     
     @Override

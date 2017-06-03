@@ -7,12 +7,14 @@ package ChessPieces;
 
 /**
  *
- * @author rasto
+ * @author Rastislav Maděra
  */
 public class Knight extends ChessPiece {
 
-    public Knight(int x, int y) {
-        super(x, y);
+    public Knight(int x, boolean isLeft) {
+        super(isLeft ? Locations.LEFT_KNIGHT.ordinal() :
+                Locations.RIGHT_KNIGHT.ordinal()
+        );
     }
     
     @Override
