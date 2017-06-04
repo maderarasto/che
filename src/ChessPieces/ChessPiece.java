@@ -35,7 +35,7 @@ public abstract class ChessPiece {
         return y;
     }
     
-    public abstract boolean MakeMove();
+    public abstract boolean IsValidMove(int toX, int toY);
     
     @Override
     public abstract String toString();

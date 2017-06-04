@@ -16,8 +16,18 @@ public class Pawn extends ChessPiece {
         super(x, y);
     }
     
+    private boolean isAtInitialPos() {
+        return y == ChessPiece.PAWNS_POSITION;
+    }
+    
     @Override
-    public boolean MakeMove() {
+    public boolean IsValidMove(int toX, int toY) {
+        if (isAtInitialPos() && toY == y + 2 && toX == x) {
+            return true;
+        } else if (toY == y + 1 && toX == x) {
+            return true;
+        }
+        
         return false;
     }
 

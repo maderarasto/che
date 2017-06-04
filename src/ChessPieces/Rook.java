@@ -18,7 +18,13 @@ public class Rook extends ChessPiece {
     }
     
     @Override
-    public boolean MakeMove() {
+    public boolean IsValidMove(int toX, int toY) {
+        if ((toY > y || toY < y) && toX == x) {
+            return true;
+        } else if ((toX > x || toX < x) && toY == y) {
+            return true;
+        }
+        
         return false;
     }
 

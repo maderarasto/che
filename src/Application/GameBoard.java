@@ -49,6 +49,7 @@ public class GameBoard {
     }
     
     public void printGame() {
+        System.out.println("      \033[31;1mChess game\033[0m     ");
         System.out.println("  |A B C D E F G H |  ");
         System.out.println("--+----------------+--");
         
@@ -64,7 +65,7 @@ public class GameBoard {
                 
             }
             
-            System.out.format("| %d",SIDE_SIZE);
+            System.out.format("| %d", i);
             System.out.println();
         }
         
