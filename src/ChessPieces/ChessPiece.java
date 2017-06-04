@@ -11,7 +11,8 @@ package ChessPieces;
  */
 public abstract class ChessPiece {
     
-    private static final int HIGH_PIECES_POSITION = 1;
+    public static final int HIGH_PIECES_POSITION = 0;
+    public static final int PAWNS_POSITION = 1;
     
     protected int x;
     protected int y;

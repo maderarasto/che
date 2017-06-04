@@ -11,7 +11,7 @@ package ChessPieces;
  */
 public class Knight extends ChessPiece {
 
-    public Knight(int x, boolean isLeft) {
+    public Knight(boolean isLeft) {
         super(isLeft ? Locations.LEFT_KNIGHT.ordinal() :
                 Locations.RIGHT_KNIGHT.ordinal()
         );

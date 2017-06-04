@@ -5,3 +5,4 @@ nbproject/*
 
 # JAVA specific
 *.class
+/build/
