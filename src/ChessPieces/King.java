@@ -17,6 +17,24 @@ public class King extends ChessPiece {
     
     @Override
     public boolean IsValidMove(int toX, int toY) {
+        if (toX == x - 1 && toY == y + 1) {
+            return true;
+        } else if (toX == x && toY == y + 1) {
+            return true;
+        } else if (toX == x + 1 && toY == y + 1) {
+            return true;
+        } else if (toX == x + 1 && toY == y) {
+            return true;
+        } else if (toX == x + 1 && toY == y - 1) {
+            return true;
+        } else if (toX == x && toY == y - 1) {
+            return true;
+        } else if (toX == x - 1 && toY == y - 1) {
+            return true;
+        } else if (toX == x - 1 && toY == y) {
+            return true;
+        }
+        
         return false;
     }
 

@@ -19,6 +19,12 @@ public class Knight extends ChessPiece {
     
     @Override
     public boolean IsValidMove(int toX, int toY) {
+        if ((toX == x - 2 || toX == x + 2) && (toY == y + 1 || toY == y - 1)) {
+            return true;
+        } else if ((toX == x - 1 || toX == x + 1) && (toY == y + 2 || toY == y - 2)) {
+            return true;
+        }
+        
         return false;
     }
 

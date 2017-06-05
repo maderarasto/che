@@ -19,6 +19,8 @@ public class Bishop extends ChessPiece {
     
     @Override
     public boolean IsValidMove(int toX, int toY) {
+        
+        
         return false;
     }
 
