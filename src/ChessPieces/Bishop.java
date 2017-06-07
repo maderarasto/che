@@ -12,21 +12,18 @@ package ChessPieces;
 public class Bishop extends ChessPiece {
 
     public Bishop(boolean isLeft) {
-        super(isLeft ? Locations.LEFT_BISHOP.ordinal() :
-                Locations.RIGHT_BISHOP.ordinal()
-        );
+        super(4, 3);
+        
     }
     
     @Override
     public boolean IsValidMove(int toX, int toY) {
-        
-        
-        return false;
+        return toX != x && toY != y && 
+                java.lang.Math.abs(toX - x) == java.lang.Math.abs(toY - y);
     }
 
     @Override
     public String toString() {
         return "Bi";
     }
-    
 }

@@ -17,12 +17,12 @@ public class Queen extends ChessPiece {
     
     @Override
     public boolean IsValidMove(int toX, int toY) {
-        return false;
+        return toX != x && toY != y &&
+                java.lang.Math.abs(toX - x) == java.lang.Math.abs(toY - y);
     }
 
     @Override
     public String toString() {
         return "Qu";
     }
-    
 }
