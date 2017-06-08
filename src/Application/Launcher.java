@@ -12,6 +12,6 @@ package Application;
 public class Launcher {
     
     public static void main(String[] args) {
-        new GameBoard().printGame();
+        new GameBoard().run();
     }
 }

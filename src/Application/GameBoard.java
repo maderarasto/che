@@ -14,7 +14,8 @@ import ChessPieces.*;
 public class GameBoard {
     
     private static final int SIDE_SIZE = 8;
-    private static final int GAME_SIDE_SIZE = 20;
+    //private static final int GAME_SIDE_SIZE = 20;
+    private java.util.Scanner input;
     
     private ChessPiece[][] gameBoard;
     
@@ -22,6 +23,7 @@ public class GameBoard {
         gameBoard = new ChessPiece[SIDE_SIZE][SIDE_SIZE];
         
         InitializeGame();
+        input = new java.util.Scanner(System.in);
     }
     
     private void InitializeGame() {
@@ -48,8 +50,66 @@ public class GameBoard {
                 new Rook(false);
     }
     
-    public void printGame() {
-        System.out.println("      \033[31;1mChess game\033[0m     ");
+    public void run() {
+        boolean isRunning = true;
+        
+        printTitle();
+        while (isRunning) {
+            printGame();
+            makePlayerMove();
+        }
+    }
+    
+    private String getInputFromPlayer(String text) {
+        System.out.print(text + "(1-8,A-H): ");
+        String txtPos = input.nextLine().toLowerCase();
+        while (txtPos.length() != 2 ||
+                !(txtPos.charAt(0) >= '1' && txtPos.charAt(0) <= '8') ||
+                !(txtPos.charAt(1) >= 'a' && txtPos.charAt(1) <= 'h')) {
+            System.err.println("Wrong position!");
+            System.out.print("Try again: ");
+            txtPos = input.nextLine().toLowerCase();
+        }
+        
+        
+        return txtPos;
+    }
+    
+    private static int getIndexFromString(String text, boolean firstX) {
+        return firstX ? (int)(text.charAt(1) - 'a') 
+                : (int)(text.charAt(0) - '1'); 
+    }
+    
+    private void makePlayerMove() {
+        int x, y, toX, toY;
+        String txtPos;
+        
+        txtPos = getInputFromPlayer("Select a piece");
+        x = getIndexFromString(txtPos, true);
+        y = getIndexFromString(txtPos, false);
+        txtPos = getInputFromPlayer("Make move");
+        toX = getIndexFromString(txtPos, true);
+        toY = getIndexFromString(txtPos, false);
+        
+        while (!gameBoard[y][x].IsValidMove(toX, toY)) {
+            System.err.println("Invalid move!");
+            txtPos = getInputFromPlayer("Try again");
+            toX = getIndexFromString(txtPos, true);
+            toY = getIndexFromString(txtPos, false);
+        }
+        
+        gameBoard[toY][toX] = gameBoard[y][x];
+        gameBoard[y][x] = null;
+    }
+    
+    private void printTitle() {
+        System.out.print("      ");
+        System.out.print("\033[31;1mChess game\033[0m");
+        System.out.print("      ");
+        System.out.println();
+    }
+    
+    private void printGame() {
         System.out.println("  |A B C D E F G H |  ");
         System.out.println("--+----------------+--");
         
@@ -71,5 +131,6 @@ public class GameBoard {
         
         System.out.println("--+----------------+--");
         System.out.println("  |A B C D E F G H |  ");
+        System.out.println();
     }
 }
