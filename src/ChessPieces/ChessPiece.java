@@ -5,6 +5,8 @@
  */
 package ChessPieces;
 
+import Enums.Color;
+
 /**
  *
  * @author Rastislav Maděra
@@ -16,15 +18,18 @@ public abstract class ChessPiece {
     
     protected int x;
     protected int y;
+    protected Color color;
     
-    public ChessPiece(int x) {
+    public ChessPiece(int x, Color color) {
         this.x = x;
         this.y = HIGH_PIECES_POSITION;
+        this.color = color;
     }
     
-    public ChessPiece(int x, int y) {
+    public ChessPiece(int x, int y, Color color) {
         this.x = x;
         this.y = y;
+        this.color = color;
     }
     
     public int getX() {
@@ -41,6 +46,10 @@ public abstract class ChessPiece {
     
     public void setY(int y) {
         this.y = y;
+    }
+    
+    public Color getColor() {
+        return color;
     }
     
     public abstract boolean IsValidMove(int toX, int toY);

@@ -6,3 +6,4 @@ nbproject/*
 # JAVA specific
 *.class
 /build/
+/dist/

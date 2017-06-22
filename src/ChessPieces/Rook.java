@@ -5,16 +5,17 @@
  */
 package ChessPieces;
 
+import Enums.Color;
+
 /**
  *
  * @author Rastislav Maděra
  */
 public class Rook extends ChessPiece {
 
-    public Rook(boolean isLeft) {
-        super(isLeft ? Locations.LEFT_ROOK.ordinal() : 
-                Locations.RIGHT_ROOK.ordinal()
-        );
+    public Rook(boolean isLeft, Color color) {
+        super(isLeft ? Location.LEFT_ROOK.ordinal() : 
+                Location.RIGHT_ROOK.ordinal(), color);
     }
     
     @Override

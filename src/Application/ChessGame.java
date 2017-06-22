@@ -21,11 +21,19 @@ public class ChessGame {
     
     private void run() {
         boolean isRunning = true;
+        String txtPos;
+        int x, y, toX, toY;
         
         printTitle();
         while (isRunning) {
-            // TODO: print game
-            // TODO: get inputs from the players
+            board.printGame();
+            
+            txtPos = getInputFromPlayer("Select a piece");
+            x = getIndexFromString(txtPos, true);
+            y = getIndexFromString(txtPos, false);
+            txtPos = getInputFromPlayer("Make move");
+            toX = getIndexFromString(txtPos, true);
+            toY = getIndexFromString(txtPos, false);
         }
     }
     
@@ -47,8 +55,12 @@ public class ChessGame {
             txtPos = input.nextLine().toLowerCase();
         }
         
-        
         return txtPos;
+    }
+    
+    private static int getIndexFromString(String text, boolean firstX) {
+        return firstX ? (int)(text.charAt(1) - 'a') 
+                : (int)(text.charAt(0) - '1'); 
     }
     
     public static void main(String[] args) {

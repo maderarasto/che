@@ -5,16 +5,17 @@
  */
 package ChessPieces;
 
+import Enums.Color;
+
 /**
  *
  * @author Rastislav Maděra
  */
 public class Knight extends ChessPiece {
 
-    public Knight(boolean isLeft) {
-        super(isLeft ? Locations.LEFT_KNIGHT.ordinal() :
-                Locations.RIGHT_KNIGHT.ordinal()
-        );
+    public Knight(boolean isLeft, Color color) {
+        super(isLeft ? Location.LEFT_KNIGHT.ordinal() :
+                Location.RIGHT_KNIGHT.ordinal(), color);
     }
     
     @Override

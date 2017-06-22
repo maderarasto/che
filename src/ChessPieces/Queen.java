@@ -5,14 +5,16 @@
  */
 package ChessPieces;
 
+import Enums.Color;
+
 /**
  *
  * @author Rastislav Maděra
  */
 public class Queen extends ChessPiece {
 
-    public Queen() {
-        super(Locations.QUEEN.ordinal());
+    public Queen(Color color) {
+        super(Location.QUEEN.ordinal(), color);
     }
     
     @Override

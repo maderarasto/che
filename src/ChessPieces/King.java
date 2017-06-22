@@ -5,14 +5,16 @@
  */
 package ChessPieces;
 
+import Enums.Color;
+
 /**
  *
  * @author Rastislav Maděra
  */
 public class King extends ChessPiece {
 
-    public King() {
-        super(Locations.KING.ordinal());
+    public King(Color color) {
+        super(Location.KING.ordinal(), color);
     }
     
     @Override

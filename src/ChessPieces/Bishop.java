@@ -5,14 +5,17 @@
  */
 package ChessPieces;
 
+import Enums.Color;
+
 /**
  *
  * @author Rastislav Maděra
  */
 public class Bishop extends ChessPiece {
 
-    public Bishop(boolean isLeft) {
-        super(4, 3);
+    public Bishop(boolean isLeft, Color color) {
+        super(isLeft ? Location.LEFT_BISHOP.ordinal() : 
+                Location.RIGHT_BISHOP.ordinal(), color);
         
     }
     

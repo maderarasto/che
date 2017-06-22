@@ -5,15 +5,17 @@
  */
 package ChessPieces;
 
+import Enums.Color;
+
 /**
  *
  * @author Rastislav Maděra
  */
 public class Pawn extends ChessPiece {
 
-    public Pawn(int x, int y)
+    public Pawn(int x, int y, Color color)
     {
-        super(x, y);
+        super(x, y, color);
     }
     
     private boolean isAtInitialPos() {

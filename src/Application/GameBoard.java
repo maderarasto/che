@@ -6,6 +6,7 @@
 package Application;
 
 import ChessPieces.*;
+import Enums.Color;
 
 /**
  *
@@ -13,103 +14,111 @@ import ChessPieces.*;
  */
 public class GameBoard {
     
-    private static final int SIDE_SIZE = 8;
-    //private static final int GAME_SIDE_SIZE = 20;
-    private java.util.Scanner input;
+    public  static final int SIDE_SIZE  = 8;
+    private static final int PLAYER_1   = 0;
+    private static final int PLAYER_2   = 1;
     
-    private ChessPiece[][] gameBoard;
+    private Square[][] gameBoard;
+    private Player[] players;
+    
+    private int actualPlayer;
     
     public GameBoard() {
-        gameBoard = new ChessPiece[SIDE_SIZE][SIDE_SIZE];
+        gameBoard = new Square[SIDE_SIZE][SIDE_SIZE];
+        players = new Player[2];
+        players[PLAYER_1] = new Player(Color.BLUE);
+        players[PLAYER_2] = new Player(Color.BLACK);
+        actualPlayer = PLAYER_1;
         
-        InitializeGame();
-        input = new java.util.Scanner(System.in);
-    }
-    
-    private void InitializeGame() {
-        for (int j = 0; j < SIDE_SIZE; j++) {
-            gameBoard[ChessPiece.PAWNS_POSITION][j] =
-                    new Pawn(j, ChessPiece.PAWNS_POSITION);
+        for (int i = 0; i < SIDE_SIZE; i++) {
+            for (int j = 0; j < SIDE_SIZE; j++) {
+                gameBoard[i][j] = new Square(j, i);
+            }
         }
         
-        gameBoard[ChessPiece.HIGH_PIECES_POSITION][Locations.LEFT_ROOK.ordinal()] =
-                new Rook(true);
-        gameBoard[ChessPiece.HIGH_PIECES_POSITION][Locations.LEFT_BISHOP.ordinal()] =
-                new Bishop(true);
-        gameBoard[ChessPiece.HIGH_PIECES_POSITION][Locations.LEFT_KNIGHT.ordinal()] =
-                new Knight(true);
-        gameBoard[ChessPiece.HIGH_PIECES_POSITION][Locations.QUEEN.ordinal()] =
-                new Queen();
-        gameBoard[ChessPiece.HIGH_PIECES_POSITION][Locations.KING.ordinal()] =
-                new King();
-        gameBoard[ChessPiece.HIGH_PIECES_POSITION][Locations.RIGHT_KNIGHT.ordinal()] =
-                new Knight(false);
-        gameBoard[ChessPiece.HIGH_PIECES_POSITION][Locations.RIGHT_BISHOP.ordinal()] =
-                new Bishop(false);
-        gameBoard[ChessPiece.HIGH_PIECES_POSITION][Locations.RIGHT_ROOK.ordinal()] =
-                new Rook(false);
+        layoutPieces(players[PLAYER_1].getColor());
+        layoutPieces(players[PLAYER_2].getColor());
     }
     
-    public void run() {
-        boolean isRunning = true;
+    private void layoutPieces(Color color) {
+        int rowOthers = color == Color.BLUE ? 0 : 7;
+        int rowPawns = color == Color.BLUE ? 1 : 6;
         
-        printTitle();
-        while (isRunning) {
-            printGame();
-            makePlayerMove();
-        }
-    }
-    
-    private String getInputFromPlayer(String text) {
-        System.out.print(text + "(1-8,A-H): ");
-        String txtPos = input.nextLine().toLowerCase();
-        while (txtPos.length() != 2 ||
-                !(txtPos.charAt(0) >= '1' && txtPos.charAt(0) <= '8') ||
-                !(txtPos.charAt(1) >= 'a' && txtPos.charAt(1) <= 'h')) {
-            System.err.println("Wrong position!");
-            System.out.print("Try again: ");
-            txtPos = input.nextLine().toLowerCase();
+        for (int i = 0; i < 8; i++) {
+            gameBoard[rowPawns][i].setPiece(new Pawn(i, rowPawns, color));
         }
         
-        
-        return txtPos;
-    }
+        gameBoard[rowOthers][Location.LEFT_ROOK.ordinal()].setPiece(new Rook(true, color));
+        gameBoard[rowOthers][Location.LEFT_BISHOP.ordinal()].setPiece(new Bishop(true, color));
+        gameBoard[rowOthers][Location.LEFT_KNIGHT.ordinal()].setPiece(new Knight(true, color));
+        gameBoard[rowOthers][Location.QUEEN.ordinal()].setPiece(new Queen(color));
+        gameBoard[rowOthers][Location.KING.ordinal()].setPiece(new King(color));
+        gameBoard[rowOthers][Location.RIGHT_KNIGHT.ordinal()].setPiece(new Knight(false, color));
+        gameBoard[rowOthers][Location.RIGHT_BISHOP.ordinal()].setPiece(new Bishop(false, color));
+        gameBoard[rowOthers][Location.RIGHT_ROOK.ordinal()].setPiece(new Rook(false, color));
+    }   
     
-    private static int getIndexFromString(String text, boolean firstX) {
-        return firstX ? (int)(text.charAt(1) - 'a') 
-                : (int)(text.charAt(0) - '1'); 
-    }
-    
-    private void makePlayerMove() {
-        int x, y, toX, toY;
-        String txtPos;
+    /*
+    public void makePlayerMove(int x, int y, int toX, int toY) 
+        throws Exception {
         
-        txtPos = getInputFromPlayer("Select a piece");
-        x = getIndexFromString(txtPos, true);
-        y = getIndexFromString(txtPos, false);
-        txtPos = getInputFromPlayer("Make move");
-        toX = getIndexFromString(txtPos, true);
-        toY = getIndexFromString(txtPos, false);
-        
-        while (!gameBoard[y][x].IsValidMove(toX, toY)) {
-            System.err.println("Invalid move!");
-            txtPos = getInputFromPlayer("Try again");
-            toX = getIndexFromString(txtPos, true);
-            toY = getIndexFromString(txtPos, false);
+        if (!gameBoard[y][x].IsValidMove(toX, toY)) {
+            throw new Exception("Invalid arguments");
         }
         
         gameBoard[toY][toX] = gameBoard[y][x];
         gameBoard[y][x] = null;
+        gameBoard[toY][toX].setX(toX);
+        gameBoard[toY][toX].setY(toY);
+        updateKingPosition(toX, toY);
+        
+
+        if (isKingAttacked()) {
+            gameBoard[y][x] = gameBoard[toY][toX];
+            gameBoard[toY][toX] = null;
+            gameBoard[y][x].setX(x);
+            gameBoard[y][x].setY(y);
+            updateKingPosition(x, y);
+            throw new Exception("King would not be safe!");
+        }
     }
     
-    private void printTitle() {
-        System.out.print("      ");
-        System.out.print("\033[31;1mChess game\033[0m");
-        System.out.print("      ");
-        System.out.println();
+    private void updateKingPosition(int toX, int toY) {
+        if (gameBoard[toY][toX].getClass().getSimpleName().equals("King")) {
+            kingX = toX;
+            kingY = toY;
+        }
     }
     
-    private void printGame() {
+    private boolean isKingAttacked() {      
+        for (int i = 1; i >= -1; i--) {
+            for (int j = -1; j <= 1; j++) {
+                int count = 0;
+                
+                int row = kingY + i*(count + 1);
+                int col = kingX + j*(count + 1);
+                boolean pieceFound = false;
+                
+                while (!pieceFound && row >= 0 && row < 8 && col >= 0 && col < 8) {
+                    if (gameBoard[row][col] != null && 
+                            gameBoard[row][col].IsValidMove(kingX, kingY)) { // IF PIECE IS ENEMY AND WOULD ATTACK KING
+                        return true;
+                    } else if (gameBoard[row][col] != null) {
+                        pieceFound = true;
+                    }
+                    
+                    count++;
+                    row = kingY + i*(count + 1);
+                    col = kingX + j*(count + 1);
+                }
+            }
+        }
+        
+        return false;
+    }
+    */    
+    
+    public void printGame() {
         System.out.println("  |A B C D E F G H |  ");
         System.out.println("--+----------------+--");
         
@@ -117,11 +126,7 @@ public class GameBoard {
             System.out.format("%d |", i);
             
             for (int j = 0; j < SIDE_SIZE; j++) {
-                if (gameBoard[i - 1][j] != null) {
-                    System.out.print(gameBoard[i - 1][j]);
-                } else {
-                    System.out.print("  ");
-                }
+                System.out.print(gameBoard[i-1][j]);
                 
             }
             
@@ -133,4 +138,5 @@ public class GameBoard {
         System.out.println("  |A B C D E F G H |  ");
         System.out.println();
     }
+    
 }

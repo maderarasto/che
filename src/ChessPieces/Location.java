@@ -9,7 +9,7 @@ package ChessPieces;
  *
  * @author Rastislav Maděra
  */
-public enum Locations {
+public enum Location {
     
     LEFT_ROOK(0),      
     LEFT_BISHOP(1),    
@@ -22,7 +22,7 @@ public enum Locations {
     
     private final int index;
     
-    private Locations(int index) {
+    private Location(int index) {
         this.index = index;
     }
 }
