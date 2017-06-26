@@ -5,6 +5,8 @@
  */
 package ChessPieces;
 
+import Enums.PieceIndex;
+import Application.Square;
 import Enums.Color;
 
 /**
@@ -14,27 +16,29 @@ import Enums.Color;
 public class King extends ChessPiece {
 
     public King(Color color) {
-        super(Location.KING.ordinal(), color);
+        super(PieceIndex.KING.getIndex(), color);
     }
     
     @Override
-    public boolean IsValidMove(int toX, int toY) {
-        if (toX == x - 1 && toY == y + 1) {
-            return true;
-        } else if (toX == x && toY == y + 1) {
-            return true;
-        } else if (toX == x + 1 && toY == y + 1) {
-            return true;
-        } else if (toX == x + 1 && toY == y) {
-            return true;
-        } else if (toX == x + 1 && toY == y - 1) {
-            return true;
-        } else if (toX == x && toY == y - 1) {
-            return true;
-        } else if (toX == x - 1 && toY == y - 1) {
-            return true;
-        } else if (toX == x - 1 && toY == y) {
-            return true;
+    public boolean IsValidMove(Square square) {
+        if (color != square.getPiece().getColor()) {
+            if (square.getX() == x - 1 && square.getY() == y + 1) {
+                return true;
+            } else if (square.getX() == x && square.getY() == y + 1) {
+                return true;
+            } else if (square.getX() == x + 1 && square.getY() == y + 1) {
+                return true;
+            } else if (square.getX() == x + 1 && square.getY() == y) {
+                return true;
+            } else if (square.getX() == x + 1 && square.getY() == y - 1) {
+                return true;
+            } else if (square.getX() == x && square.getY() == y - 1) {
+                return true;
+            } else if (square.getX() == x - 1 && square.getY() == y - 1) {
+                return true;
+            } else if (square.getX() == x - 1 && square.getY() == y) {
+                return true;
+            }
         }
         
         return false;

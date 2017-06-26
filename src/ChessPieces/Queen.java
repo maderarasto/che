@@ -5,6 +5,8 @@
  */
 package ChessPieces;
 
+import Enums.PieceIndex;
+import Application.Square;
 import Enums.Color;
 
 /**
@@ -14,13 +16,15 @@ import Enums.Color;
 public class Queen extends ChessPiece {
 
     public Queen(Color color) {
-        super(Location.QUEEN.ordinal(), color);
+        super(PieceIndex.QUEEN.getIndex(), color);
     }
     
     @Override
-    public boolean IsValidMove(int toX, int toY) {
-        return toX != x && toY != y &&
-                java.lang.Math.abs(toX - x) == java.lang.Math.abs(toY - y);
+    public boolean IsValidMove(Square square) {
+        return color != square.getPiece().getColor() && 
+                square.getX() != x && square.getY() != y &&
+                java.lang.Math.abs(square.getX() - x) == 
+                java.lang.Math.abs(square.getY() - y);
     }
 
     @Override

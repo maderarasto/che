@@ -5,6 +5,8 @@
  */
 package ChessPieces;
 
+import Enums.PieceIndex;
+import Application.Square;
 import Enums.Color;
 
 /**
@@ -14,16 +16,20 @@ import Enums.Color;
 public class Knight extends ChessPiece {
 
     public Knight(boolean isLeft, Color color) {
-        super(isLeft ? Location.LEFT_KNIGHT.ordinal() :
-                Location.RIGHT_KNIGHT.ordinal(), color);
+        super(isLeft ? PieceIndex.LEFT_KNIGHT.getIndex() :
+                PieceIndex.RIGHT_KNIGHT.getIndex(), color);
     }
     
     @Override
-    public boolean IsValidMove(int toX, int toY) {
-        if ((toX == x - 2 || toX == x + 2) && (toY == y + 1 || toY == y - 1)) {
-            return true;
-        } else if ((toX == x - 1 || toX == x + 1) && (toY == y + 2 || toY == y - 2)) {
-            return true;
+    public boolean IsValidMove(Square square) {
+        if (square.getPiece() == null || color != square.getPiece().getColor()) {
+            if ((square.getX() == x - 2 || square.getX() == x + 2) && 
+                    (square.getY() == y + 1 || square.getY() == y - 1)) {
+                return true;
+            } else if ((square.getX() == x - 1 || square.getX() == x + 1) && 
+                    (square.getY() == y + 2 || square.getY() == y - 2)) {
+                return true;
+            }
         }
         
         return false;

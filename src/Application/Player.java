@@ -7,6 +7,7 @@ package Application;
 
 import ChessPieces.ChessPiece;
 import Enums.Color;
+import Enums.PieceIndex;
 
 /**
  *
@@ -14,28 +15,46 @@ import Enums.Color;
  */
 public class Player {
     
+    private int kingX;
+    private int kingY;
     private int points;
+    
     private final Color color;
     
     public Player(Color color) {
         this.color = color;
         this.points = 0;
+        this.kingX = PieceIndex.KING.getIndex();
+        this.kingY = color == Color.WHITE ? 0 : 7;
+    }
+    
+    public void updateKing(int x, int y) {
+        kingX = x;
+        kingY = y;
     }
     
     public int getPoints() {
         return points;
     }
     
-    public void IncreasePoints(ChessPiece piece) {
-        // Increase points by value of piece
+    public void takeOponentPiece(Square square) {
+        ChessPiece piece = square.getPiece();
+        square.setPiece(null);
+        points += piece.getValue();
     }
     
     public Color getColor() {
         return color;
     }
     
-    public void movePiece(ChessPiece piece, int toX, int toY) {
-        piece.setX(toX);
-        piece.setY(toY);
+    public void movePiece(ChessPiece piece, Square square) {
+        piece.setX(square.getX());
+        piece.setY(square.getY());
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("Player %d: %d", color == Color.WHITE ? 1 : 2, 
+                points);
     }
 }

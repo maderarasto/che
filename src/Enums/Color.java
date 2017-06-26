@@ -11,7 +11,7 @@ package Enums;
  */
 public enum Color {
     
-    BLUE(0),
+    WHITE(0),
     BLACK(1);
     
     private final int index;

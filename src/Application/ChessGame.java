@@ -34,13 +34,18 @@ public class ChessGame {
             txtPos = getInputFromPlayer("Make move");
             toX = getIndexFromString(txtPos, true);
             toY = getIndexFromString(txtPos, false);
+            
+            try {
+                board.makePlayerMove(x, y, toX, toY);
+            } catch (Exception ex) {
+                System.err.println("It isn't a valid move. Try Again!");
+            }
         }
     }
     
     private void printTitle() {
-        System.out.print("      ");
+        System.out.print("              ");
         System.out.print("\033[31;1mChess game\033[0m");
-        System.out.print("      ");
         System.out.println();
     }
     

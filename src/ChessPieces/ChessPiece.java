@@ -6,6 +6,7 @@
 package ChessPieces;
 
 import Enums.Color;
+import Application.Square;
 
 /**
  *
@@ -18,17 +19,20 @@ public abstract class ChessPiece {
     
     protected int x;
     protected int y;
+    protected final int value;
     protected Color color;
     
     public ChessPiece(int x, Color color) {
         this.x = x;
         this.y = HIGH_PIECES_POSITION;
+        value = 2;
         this.color = color;
     }
     
     public ChessPiece(int x, int y, Color color) {
         this.x = x;
         this.y = y;
+        value = 2;
         this.color = color;
     }
     
@@ -48,11 +52,15 @@ public abstract class ChessPiece {
         this.y = y;
     }
     
+    public int getValue() {
+        return value;
+    }
+    
     public Color getColor() {
         return color;
     }
     
-    public abstract boolean IsValidMove(int toX, int toY);
+    public abstract boolean IsValidMove(Square square);
     
     @Override
     public abstract String toString();

@@ -40,12 +40,17 @@ public class Square {
         this.piece = piece;
     }
     
+    public boolean IsThereKing() {
+        return piece != null && 
+                piece.getClass().getSimpleName().equals("King");
+    }
+    
     @Override
     public String toString() {
-        if (piece != null && piece.getColor() == Color.BLUE) {
-            return "\033[34;1m" + piece + "\033[0m";
+        if (piece != null && piece.getColor() == Color.WHITE) {
+            return "\033[30;1m" + piece + "\033[0m";
         } else if (piece != null && piece.getColor() == Color.BLACK) {
-            return piece.toString();
+            return "\033[37;1m" + piece + "\033[0m";
         }
         
         return "  ";        
