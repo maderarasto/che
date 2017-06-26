@@ -65,34 +65,61 @@ public class GameBoard {
                 new Bishop(false, color));
         gameBoard[rowOthers][PieceIndex.RIGHT_ROOK.getIndex()].setPiece(
                 new Rook(false, color));
-    }   
+    }  
     
+    public boolean isValidSelection(int x, int y) {
+        return gameBoard[y][x].isTherePiece() && 
+                gameBoard[y][x].getPiece().getColor() == players[actualPlayer].getColor();
+    }    
     
     public void makePlayerMove(int x, int y, int toX, int toY) 
         throws Exception {
         
         ChessPiece piece = null;
+        boolean takingPiece = false;
         
         if (!gameBoard[y][x].getPiece().IsValidMove(gameBoard[toY][toX])) {
             throw new Exception("Invalid target");
         }
         
-        if (gameBoard[toY][toX].getPiece() != null && gameBoard[toY][toX].getPiece().getColor() != players[actualPlayer].getColor())
+        if (gameBoard[toY][toX].isTherePiece() && 
+                gameBoard[toY][toX].getPiece().getColor() != players[actualPlayer].getColor())
         {
             piece = gameBoard[toY][toX].getPiece();
-            players[actualPlayer].takeOponentPiece(gameBoard[toY][toX]);
+            takingPiece = true;
         }
         
         gameBoard[toY][toX].setPiece(gameBoard[y][x].getPiece());   // Move a piece to new square
         gameBoard[y][x].setPiece(null); // Clear piece from previous square
+        if (gameBoard[toY][toX].IsThereKing()) {
+                players[actualPlayer].updateKing(x, y);
+            }
+        
+        if (isKingAttacked()) {
+            gameBoard[y][x].setPiece(gameBoard[toY][toX].getPiece());
+            gameBoard[toY][toX].setPiece(null);
+            
+            if (gameBoard[y][x].IsThereKing()) {
+                players[actualPlayer].updateKing(x, y);
+            }
+            
+            throw new Exception("King would be attacked there!");
+        }
+        
+        if (takingPiece) {
+            players[actualPlayer].takeOponentPiece(gameBoard[toY][toX]);
+        }
         
         players[actualPlayer].movePiece(gameBoard[toY][toX].getPiece(), 
                 gameBoard[toY][toX]);
         actualPlayer = (++actualPlayer) % 2;    // Passing moves between 2 Players
     }
-     /*
+     
     
     private boolean isKingAttacked() {      
+        int kingX = players[actualPlayer].getKingX();
+        int kingY = players[actualPlayer].getKingY();
+        
         for (int i = 1; i >= -1; i--) {
             for (int j = -1; j <= 1; j++) {
                 int count = 0;
@@ -102,10 +129,11 @@ public class GameBoard {
                 boolean pieceFound = false;
                 
                 while (!pieceFound && row >= 0 && row < 8 && col >= 0 && col < 8) {
-                    if (gameBoard[row][col] != null && 
-                            gameBoard[row][col].IsValidMove(kingX, kingY)) { // IF PIECE IS ENEMY AND WOULD ATTACK KING
+                    if (gameBoard[row][col].isTherePiece() && 
+                        gameBoard[row][col].getPiece()
+                            .IsValidMove(gameBoard[kingY][kingX])) { // IF PIECE IS ENEMY AND WOULD ATTACK KING
                         return true;
-                    } else if (gameBoard[row][col] != null) {
+                    } else if (gameBoard[row][col].isTherePiece()) {
                         pieceFound = true;
                     }
                     
@@ -118,7 +146,7 @@ public class GameBoard {
         
         return false;
     }
-    */    
+     
     
     public void printGame() {
         System.out.println(players[PLAYER_2]);

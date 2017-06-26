@@ -21,7 +21,7 @@ public class Queen extends ChessPiece {
     
     @Override
     public boolean IsValidMove(Square square) {
-        return color != square.getPiece().getColor() && 
+        return !square.isTherePiece() || color != square.getPiece().getColor() && 
                 square.getX() != x && square.getY() != y &&
                 java.lang.Math.abs(square.getX() - x) == 
                 java.lang.Math.abs(square.getY() - y);

@@ -37,6 +37,14 @@ public class Player {
         return points;
     }
     
+    public int getKingX() {
+        return kingX;
+    }    
+    
+    public int getKingY() {
+        return kingY;
+    }
+    
     public void takeOponentPiece(Square square) {
         ChessPiece piece = square.getPiece();
         square.setPiece(null);

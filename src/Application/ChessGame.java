@@ -29,8 +29,20 @@ public class ChessGame {
             board.printGame();
             
             txtPos = getInputFromPlayer("Select a piece");
+            
+            if (txtPos.equals("quit")) {
+                System.out.println("GAME OVER");
+                break;  
+            }
+            
             x = getIndexFromString(txtPos, true);
             y = getIndexFromString(txtPos, false);
+            if (!board.isValidSelection(x, y)) {
+                System.err.println("It isn't a valid selection. Try Again!");
+                continue;
+            }
+            
+            
             txtPos = getInputFromPlayer("Make move");
             toX = getIndexFromString(txtPos, true);
             toY = getIndexFromString(txtPos, false);
@@ -52,6 +64,11 @@ public class ChessGame {
     private String getInputFromPlayer(String message) {
         System.out.print(message + "(1-8,A-H): ");
         String txtPos = input.nextLine().toLowerCase();
+        
+        if (txtPos.equals("quit")) {
+            return txtPos;
+        }
+        
         while (txtPos.length() != 2 ||
                 !(txtPos.charAt(0) >= '1' && txtPos.charAt(0) <= '8') ||
                 !(txtPos.charAt(1) >= 'a' && txtPos.charAt(1) <= 'h')) {

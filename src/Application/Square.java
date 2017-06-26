@@ -40,6 +40,10 @@ public class Square {
         this.piece = piece;
     }
     
+    public boolean isTherePiece() {
+        return piece != null;
+    }
+    
     public boolean IsThereKing() {
         return piece != null && 
                 piece.getClass().getSimpleName().equals("King");
