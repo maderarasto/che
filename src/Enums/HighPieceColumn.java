@@ -9,7 +9,7 @@ package Enums;
  *
  * @author Rastislav Maděra
  */
-public enum PieceIndex {
+public enum HighPieceColumn {
     
     LEFT_ROOK(0),      
     LEFT_KNIGHT(1),    
@@ -22,7 +22,7 @@ public enum PieceIndex {
     
     private final int index;
     
-    private PieceIndex(int index) {
+    private HighPieceColumn(int index) {
         this.index = index;
     }
     

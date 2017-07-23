@@ -5,8 +5,8 @@
  */
 package ChessPieces;
 
-import Enums.PieceIndex;
-import Application.Square;
+import Enums.HighPieceColumn;
+import GameBoard.Square;
 import Enums.Color;
 
 /**
@@ -16,17 +16,23 @@ import Enums.Color;
 public class Bishop extends ChessPiece {
 
     public Bishop(boolean isLeft, Color color) {
-        super(isLeft ? PieceIndex.LEFT_BISHOP.getIndex() : 
-                PieceIndex.RIGHT_BISHOP.getIndex(), color);
+        super(isLeft ? HighPieceColumn.LEFT_BISHOP.getIndex() : 
+                HighPieceColumn.RIGHT_BISHOP.getIndex(), color);
         
+    }
+    
+    public Bishop(int x, int y, Color color) {
+        super(x, y, color);
     }
     
     @Override
     public boolean IsValidMove(Square square) {
-        return square.getPiece() == null || color != square.getPiece().getColor() && 
-                square.getX() != x && square.getY() != y && 
-                java.lang.Math.abs(square.getX() - x) == 
-                java.lang.Math.abs(square.getY() - y);
+        if (square.isThereAnyPiece() && square.getPiece().color == color) {
+            return false;
+        }
+        
+        return  square.getX() != x && square.getY() != y && 
+            java.lang.Math.abs(square.getX() - x) == java.lang.Math.abs(square.getY() - y);
     }
 
     @Override

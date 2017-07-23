@@ -6,16 +6,14 @@
 package ChessPieces;
 
 import Enums.Color;
-import Application.Square;
+import Enums.PieceRow;
+import GameBoard.Square;
 
 /**
  *
  * @author Rastislav Maděra
  */
 public abstract class ChessPiece {
-    
-    public static final int HIGH_PIECES_POSITION = 0;
-    public static final int PAWNS_POSITION = 1;
     
     protected int x;
     protected int y;
@@ -24,7 +22,8 @@ public abstract class ChessPiece {
     
     public ChessPiece(int x, Color color) {
         this.x = x;
-        this.y = HIGH_PIECES_POSITION;
+        this.y = color.isWhite() ? PieceRow.WHITE_HIGH_PIECE.getIndex() 
+                : PieceRow.BLACK_HIGH_PIECE.getIndex();
         value = 2;
         this.color = color;
     }

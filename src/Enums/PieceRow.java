@@ -9,18 +9,20 @@ package Enums;
  *
  * @author rasto
  */
-public enum Color {
+public enum PieceRow {
     
-    WHITE(0),
-    BLACK(1);
+    WHITE_HIGH_PIECE(0),
+    WHITE_PAWN_PIECE(1),
+    BLACK_PAWN_PIECE(6),
+    BLACK_HIGH_PIECE(7);
     
     private final int index;
     
-    private Color(int index) {
+    private PieceRow(int index) {
         this.index = index;
     }
     
-    public boolean isWhite() {
-        return index == 0;
+    public int getIndex() {
+        return index;
     }
 }

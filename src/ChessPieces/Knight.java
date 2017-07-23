@@ -5,8 +5,8 @@
  */
 package ChessPieces;
 
-import Enums.PieceIndex;
-import Application.Square;
+import Enums.HighPieceColumn;
+import GameBoard.Square;
 import Enums.Color;
 
 /**
@@ -16,23 +16,28 @@ import Enums.Color;
 public class Knight extends ChessPiece {
 
     public Knight(boolean isLeft, Color color) {
-        super(isLeft ? PieceIndex.LEFT_KNIGHT.getIndex() :
-                PieceIndex.RIGHT_KNIGHT.getIndex(), color);
+        super(isLeft ? HighPieceColumn.LEFT_KNIGHT.getIndex() :
+                HighPieceColumn.RIGHT_KNIGHT.getIndex(), color);
+    }
+    
+    public Knight(int x, int y, Color color) {
+        super(x, y, color);
     }
     
     @Override
     public boolean IsValidMove(Square square) {
-        if (square.getPiece() == null || color != square.getPiece().getColor()) {
-            if ((square.getX() == x - 2 || square.getX() == x + 2) && 
-                    (square.getY() == y + 1 || square.getY() == y - 1)) {
-                return true;
-            } else if ((square.getX() == x - 1 || square.getX() == x + 1) && 
-                    (square.getY() == y + 2 || square.getY() == y - 2)) {
-                return true;
-            }
+        if (square.isThereAnyPiece() && square.getPiece().getColor() == color) {
+            return false;
         }
         
-        return false;
+        return (square.getX()  == x - 2 && square.getY()  == y + 1) ||
+                (square.getX() == x - 2 && square.getY() == y - 1) ||
+                (square.getX() == x + 2 && square.getY() == y + 1) ||
+                (square.getX() == x + 2 && square.getY() == y - 1) ||
+                (square.getX() == x - 1 && square.getY() == y + 2) ||
+                (square.getX() == x - 1 && square.getY() == y - 2) ||
+                (square.getX() == x + 1 && square.getY() == y + 2) ||
+                (square.getX() == x + 1 && square.getY() == y - 2);
     }
 
     @Override

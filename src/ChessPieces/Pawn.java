@@ -5,8 +5,9 @@
  */
 package ChessPieces;
 
-import Application.Square;
+import GameBoard.Square;
 import Enums.Color;
+import Enums.PieceRow;
 
 /**
  *
@@ -14,43 +15,34 @@ import Enums.Color;
  */
 public class Pawn extends ChessPiece {
 
-    private int direction;
+    private final int direction;
     
     public Pawn(int x, int y, Color color)
     {
         super(x, y, color);
-        direction = color == Color.WHITE ? 1 : -1;
+        direction = color.isWhite() ? 1 : -1;
     }
     
     private boolean isAtInitialPos() {
-        int initPos = color == Color.WHITE ? 1 : 6;
+        int initPos = color.isWhite() ? PieceRow.WHITE_PAWN_PIECE.getIndex() 
+                : PieceRow.BLACK_PAWN_PIECE.getIndex();
         return y == initPos;
     }
     
     @Override
     public boolean IsValidMove(Square square) {
-        if (square.getPiece() == null || color != square.getPiece().getColor()) {
-            if (isAtInitialPos() && square.getY() == y + 2*direction && 
-                    square.getX() == x) {
-                return true;
-            } else if (square.getY() == y + 1*direction && square.getX() == x) {
-                return true;
-            } else if (square.getPiece() != null && square.getPiece().getColor() != color && 
-                    (square.getX() == x - 1*direction || 
-                    square.getX() == x + 1*direction) && 
-                    square.getY() == y + 1*direction)
-            {
-                return true;
-            }
+        if (square.isThereAnyPiece() && square.getPiece().getColor() == color) {
+            return false;
         }
         
-        return false;
+        return (isAtInitialPos() && square.getY() == y + 2*direction && square.getX() == x) ||
+                (square.getY() == y + direction && square.getX() == x    ) ||
+                (square.getX() == x + direction && square.getY() == y + 1) ||
+                (square.getX() == x - direction && square.getY() == y + 1);
     }
 
     @Override
     public String toString() {
         return "Pa";
-    }
-    
-    
+    } 
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Application;
+package GameBoard;
 
 import ChessPieces.ChessPiece;
 import Enums.Color;
@@ -40,13 +40,34 @@ public class Square {
         this.piece = piece;
     }
     
-    public boolean isTherePiece() {
+    public boolean isThereAnyPiece() {
         return piece != null;
     }
     
-    public boolean IsThereKing() {
-        return piece != null && 
-                piece.getClass().getSimpleName().equals("King");
+    public boolean IsTherePiece(String... pieceNames) {
+        for (String strPiece : pieceNames) {
+            if (piece != null && 
+                piece.getClass().getSimpleName().equals(strPiece)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    public int getDistanceFromTarget(Square target) {
+        int length = 0;
+        
+        if (Math.abs(x - target.getX()) == Math.abs(y - target.getY())) {
+            length = Math.abs(x - target.getX());
+        }
+        else if (x == target.getX()) {
+            length = Math.abs(y - target.getY());
+        } else if (y == target.getY()) {
+            length = Math.abs(x - target.getX());
+        }
+        
+        return length;
     }
     
     @Override

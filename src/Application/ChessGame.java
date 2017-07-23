@@ -5,9 +5,12 @@
  */
 package Application;
 
+import GameBoard.GameBoard;
+import Enums.Color;
+
 /**
  *
- * @author rasto
+ * @author Rastislav Madera
  */
 public class ChessGame {
     
@@ -28,6 +31,8 @@ public class ChessGame {
         while (isRunning) {
             board.printGame();
             
+            System.out.format("PLAYER%d ", board.getActualPlayer().getColor() == Color.WHITE ?
+                    1 : 2);
             txtPos = getInputFromPlayer("Select a piece");
             
             if (txtPos.equals("quit")) {
@@ -50,9 +55,18 @@ public class ChessGame {
             try {
                 board.makePlayerMove(x, y, toX, toY);
             } catch (Exception ex) {
-                System.err.println("It isn't a valid move. Try Again!");
+                System.err.format("Error: %s\n", ex.getMessage());
+                System.out.println("Try Again!");
+                continue;
             }
+            
+
+        isRunning = !board.CheckmateDecision();
+            board.printGame();
         }
+        
+        //board.printGame();
+        System.out.println("GAME OVER!");
     }
     
     private void printTitle() {
