@@ -1,14 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GameBoard;
 
 import ChessPieces.*;
 import Enums.Color;
 
 /**
+ * This class represents chessboard that contains 64 squares. Squares are devided
+ * into 8 squares in 8 rows. It contains methods
+ * for layouting pieces, checking state of checkmate and so on.
  *
  * @author Rastislav Maděra
  */
@@ -22,11 +20,24 @@ public class GameBoard {
     private static final int COORD_X = 0;
     private static final int COORD_Y = 1;
     
+    /**
+     * It represents collection of Squares. It is gameboard.
+     */
     private Square[][] gameBoard;
+    
+    /**
+     * It represents 2 players.
+     */
     private final Player[] players;
     
+    /**
+     * It represents index of player who is just now on the move.
+     */
     private int actualPlayer;
     
+    /**
+     * Class constructor. It initializes gameboard, players and then layout pieces.
+     */
     public GameBoard() {
         gameBoard = new Square[SIDE_SIZE][SIDE_SIZE];
         players = new Player[2];
@@ -44,6 +55,11 @@ public class GameBoard {
         layoutPieces(players[PLAYER_2]);
     }
     
+    /**
+     * It layouts player's pieces on the board.
+     * 
+     * @param player It specifies the player.
+     */
     private void layoutPieces(Player player) {
         for (int i = 0; i < player.getNumberOfPieces(); i++) {
             ChessPiece piece = player.getPieceFromList(i);
@@ -51,15 +67,41 @@ public class GameBoard {
         }
     }  
     
+    /** 
+     * It validates if the actual player picked his own piece.
+     * 
+     * @param x It represents horizontal coordinate in the board.
+     * @param y It represents vertical coordinate in the board.
+     * @return It returns if the selection is correct.
+     */
     public boolean isValidSelection(int x, int y) {
         return gameBoard[y][x].isThereAnyPiece() && 
                 gameBoard[y][x].getPiece().getColor() == players[actualPlayer].getColor();
     }    
     
+    /**
+     * It gets player who is just now on the move.
+     * @return 
+     */
     public Player getActualPlayer() {
         return players[actualPlayer];
     }
     
+    /**
+     * <b>It makes validation of move and executes the move.</b>
+     * 
+     * <p>
+     *   First it checks that it would be a valid move, if there isn't any obstacle and 
+     * then tries to make the move. After that, it checks if the king is safe and if isn't 
+     * then restore board to previous state. And finally pass the turn to next player.
+     * </p>
+     * 
+     * @param x It specifies horizontal coordinate of picked piece.
+     * @param y It specifies vertical coordinate of picked piece.
+     * @param toX It specifies horizontal coordinate of selected target.
+     * @param toY It specifies vertical coordinate of selected target
+     * @throws Exception It throws 2 exceptions
+     */
     public void makePlayerMove( int x, int y, int toX, int toY) 
         throws Exception {
         
@@ -105,6 +147,16 @@ public class GameBoard {
         
     }
     
+    /**
+     * It checks if between two squares are any blocking chess piece.
+     * 
+     * First it gets distance between two squares and directions of the move.
+     * Then it searchs if there is any blocking piece. If it finds then return true.
+     * 
+     * @param square It specifies a square of contolled piece.
+     * @param target It specifies target square.
+     * @return It returns if there is any blocking piece.
+     */
     public boolean isThereObstacle(Square square, Square target) {
         int length = square.getDistanceFromTarget(target) - 1;
         int dx = getMoveDirection(square, target, COORD_X);
@@ -122,6 +174,23 @@ public class GameBoard {
         return false;
     }
     
+    /**
+     * <b>It decides about checkmate.</b>
+     * 
+     * <p>
+     *   Checkmate conditions:
+     *   <ol>
+     *     <li>If the king have check</li>
+     *     <li>If the king can't escape from the check</li>
+     *     <li>If the next player can't take attacker 
+     *         (does not apply if attackers are more than one)</li>
+     *     <li>If the next player can't block attacker 
+     *         (does not apply if attacker are knight)</li>
+     *   </ol>
+     * </p>
+     * 
+     * @return It returns if the next player have checkmate.
+     */
     public boolean CheckmateDecision() {
         KingsAroundInfo kingInfo = checkKingSafety();
         int kingX = players[actualPlayer].getKingX();
@@ -156,8 +225,16 @@ public class GameBoard {
         return false;
     }
     
-    
-    
+    /**
+     * It checks if the actual player can block king's attacker.
+     * 
+     * It iterates through gap between attacker and king, in each loop cycle
+     * it tries to find player's piece that could block the attacker.
+     * 
+     * @param attacker It specifies a square of attacker.
+     * @param target It specifies a square of king.
+     * @return It returns if is possible blocking attacker.
+     */
     private boolean canPlayerBlockAttacker(Square attacker, Square target){
         int length = attacker.getDistanceFromTarget(target) - 1;    // Because the last piece is king
         int dX = getMoveDirection(attacker, target, COORD_X);
@@ -175,6 +252,14 @@ public class GameBoard {
         return false;
     }
     
+    /**
+     * It gets direction for specific coordinate based on made movement.
+     * 
+     * @param attacker It specifies a square of the piece.
+     * @param target It specifies a square of player's target.
+     * @param coordinate It specifies coordinate for which is returned result.
+     * @return It returns direction of specific coordinate.
+     */
     private int getMoveDirection(Square attacker, Square target, int coordinate){
         if (coordinate < 0 || coordinate > 1) {
             // TODO: Throw System Exception
@@ -187,7 +272,17 @@ public class GameBoard {
     }
     
     
-    
+    /**
+     * It checks if king does have any possible escape move from chess.
+     * 
+     * It iterates through king's surrounding and tries to move king
+     * on the new temporary position. If it's possible, then it tries to check
+     * if there king would be safe.
+     * At the end of the move it restores a default position of king and 
+     * it returns result.
+     * 
+     * @return It returns if king have any safe escape move.
+     */
     private boolean isThereAnySafeMove() {
         int actualKingX = players[actualPlayer].getKingX();
         int actualKingY = players[actualPlayer].getKingY();
@@ -225,6 +320,15 @@ public class GameBoard {
         return canBeSaved;
     }
     
+    /**
+     * It checks if the king is safe and returns how many pieces are occupying king
+     * and last king's attacker.
+     * 
+     * It iterates through list of the actual oponent's pieces and it tries 
+     * to validate moves on the king position. 
+     * 
+     * @return It returns object that contains result about king's surroundings.
+     */
     private KingsAroundInfo checkKingSafety() {      
         int numberOfAttacks = 0;
         int kingY = players[actualPlayer].getKingY();
@@ -245,37 +349,11 @@ public class GameBoard {
         }
         
         return new KingsAroundInfo(numberOfAttacks, pieceSquare);
-        /*
-        for (int i = 1; i >= -1; i--) {
-            for (int j = -1; j <= 1; j++) {
-                int count = 0;
-                
-                int row = kingY + i*(count + 1);
-                int col = kingX + j*(count + 1);
-                boolean pieceFound = false;
-                
-                while (!pieceFound && row >= 0 && row <= 7 && col >= 0 && col <= 7) {
-                    if (gameBoard[row][col].isThereAnyPiece() && 
-                        gameBoard[row][col].getPiece()
-                            .IsValidMove(gameBoard[kingY][kingX])) { // IF PIECE IS ENEMY AND WOULD ATTACK KING
-                        enemyPieceSquare = gameBoard[row][col];
-                        pieceFound = true;
-                        numberOfAttacks++;
-                    } else if (gameBoard[row][col].isThereAnyPiece()) {
-                        pieceFound = true;
-                    }
-                    
-                    count++;
-                    row = kingY + i*(count + 1);
-                    col = kingX + j*(count + 1);
-                }
-            }
-        }
-        
-        return new KingsAroundInfo(numberOfAttacks, enemyPieceSquare);*/
     }
      
-    
+    /**
+     * It prints game board of actual turn.
+     */
     public void printGame() {
         System.out.println(players[PLAYER_2]);
         System.out.println("  | A   B   C   D   E   F   G   H |  ");
