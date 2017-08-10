@@ -1,6 +1,7 @@
- package Application;
+package Application;
 
 import GameBoard.GameBoard;
+import GameBoard.Player;
 import Enums.Color;
 
 /**
@@ -21,6 +22,8 @@ public class ChessGame {
         boolean isRunning = true;
         String txtPos;
         int x, y, toX, toY;
+        Player winner = null;
+        Player loser = null;
         
         printTitle();
         while (isRunning) {
@@ -55,13 +58,14 @@ public class ChessGame {
                 continue;
             }
             
-
-        isRunning = !board.CheckmateDecision();
-            board.printGame();
+        loser = board.CheckmateDecision();
+        isRunning = loser == null;
+        winner = board.getNextPlayer();
         }
         
-        //board.printGame();
         System.out.println("GAME OVER!");
+        System.out.println("Winner: " + winner);
+        System.out.println("Loser: " + loser);
     }
     
     private void printTitle() {

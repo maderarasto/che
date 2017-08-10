@@ -233,7 +233,6 @@ public class Player {
      */
     @Override
     public String toString() {
-        return String.format("Player %d: %d", color.isWhite() ? 1 : 2, 
-                points);
+        return String.format("Player %d", color.isWhite() ? 1 : 2);
     }
 }

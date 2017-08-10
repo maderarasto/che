@@ -14,9 +14,9 @@ public class GameBoard {
     
     
     
-    public  static final int SIDE_SIZE  = 8;
-    private static final int PLAYER_1   = 0;
-    private static final int PLAYER_2   = 1;
+    public  static final int SIDE_SIZE = 8;
+    private static final int PLAYER_1 = 0;
+    private static final int PLAYER_2 = 1;
     private static final int COORD_X = 0;
     private static final int COORD_Y = 1;
     
@@ -81,10 +81,20 @@ public class GameBoard {
     
     /**
      * It gets player who is just now on the move.
+     * 
      * @return 
      */
     public Player getActualPlayer() {
         return players[actualPlayer];
+    }
+    
+    /**
+     * It gets a next player.
+     * 
+     * @return 
+     */
+    public Player getNextPlayer() {
+        return players[(actualPlayer+1)%2];
     }
     
     /**
@@ -175,54 +185,48 @@ public class GameBoard {
     }
     
     /**
-     * <b>It decides about checkmate.</b>
+     * It decides about checkmate.
+     * Checkmate conditions:
+     *   If the king have check
+     *   If the king can't escape from the check
+     *   If the next player can't take attacker 
+     *     (does not apply if attackers are more than one)
+     *   If the next player can't block attacker 
+     *     (does not apply if attacker are knight)
      * 
-     * <p>
-     *   Checkmate conditions:
-     *   <ol>
-     *     <li>If the king have check</li>
-     *     <li>If the king can't escape from the check</li>
-     *     <li>If the next player can't take attacker 
-     *         (does not apply if attackers are more than one)</li>
-     *     <li>If the next player can't block attacker 
-     *         (does not apply if attacker are knight)</li>
-     *   </ol>
-     * </p>
-     * 
-     * @return It returns if the next player have checkmate.
+     * @return It returns actual player, if he has checkmate, else returns null.
      */
-    public boolean CheckmateDecision() {
+    public Player CheckmateDecision() {
         KingsAroundInfo kingInfo = checkKingSafety();
         int kingX = players[actualPlayer].getKingX();
         int kingY = players[actualPlayer].getKingY();
         
         if (kingInfo.getCount() > 0 ) {
-            //players[actualPlayer].setCheckmate(true);
             
             if (!isThereAnySafeMove()) {
                 if (kingInfo.getCount() <= 1) {
                     if (!players[actualPlayer].findPieceForValidMove(kingInfo.getAttacker())) {
                         if (!kingInfo.getAttacker().IsTherePiece("Knight")) {
                             if (!canPlayerBlockAttacker(kingInfo.getAttacker(), gameBoard[kingY][kingX])) {
-                                return true;
+                                return players[actualPlayer];
                             }
                             
-                            return false;
+                            return null;
                         }
                         
-                        return true;
+                        return players[actualPlayer];
                     }
                     
-                    return true;
+                    return players[actualPlayer];
                 }
                 
-                return true;
+                return players[actualPlayer];
             }
             
-            return false;
+            return null;
         }
         
-        return false;
+        return null;
     }
     
     /**
@@ -355,7 +359,7 @@ public class GameBoard {
      * It prints game board of actual turn.
      */
     public void printGame() {
-        System.out.println(players[PLAYER_2]);
+        System.out.printf("%s: %d\n", players[PLAYER_2], players[PLAYER_2].getPoints());
         System.out.println("  | A   B   C   D   E   F   G   H |  ");
         System.out.println("--+---+---+---+---+---+---+---+---+--");
         
@@ -374,7 +378,7 @@ public class GameBoard {
         
         System.out.println("--+---+---+---+---+---+---+---+---+--");
         System.out.println("  | A   B   C   D   E   F   G   H |  ");
-        System.out.println(players[PLAYER_1]);
+        System.out.printf("%s: %d\n", players[PLAYER_1], players[PLAYER_1].getPoints());
         System.out.println();
     }
     
