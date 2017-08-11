@@ -145,12 +145,6 @@ public class GameBoard {
             throw new Exception("King would not be safe!");
         }
         
-         
-        
-        if (takingPiece) {
-            players[actualPlayer].IncreasePoints(piece);
-        }
-        
         players[actualPlayer].movePiece(gameBoard[toY][toX].getPiece(), 
                 gameBoard[toY][toX]);
         actualPlayer = (++actualPlayer) % 2;    // Passing moves between 2 Players
@@ -359,7 +353,7 @@ public class GameBoard {
      * It prints game board of actual turn.
      */
     public void printGame() {
-        System.out.printf("%s: %d\n", players[PLAYER_2], players[PLAYER_2].getPoints());
+        System.out.println(players[PLAYER_2]);
         System.out.println("  | A   B   C   D   E   F   G   H |  ");
         System.out.println("--+---+---+---+---+---+---+---+---+--");
         
@@ -378,7 +372,7 @@ public class GameBoard {
         
         System.out.println("--+---+---+---+---+---+---+---+---+--");
         System.out.println("  | A   B   C   D   E   F   G   H |  ");
-        System.out.printf("%s: %d\n", players[PLAYER_1], players[PLAYER_1].getPoints());
+        System.out.println(players[PLAYER_1]);
         System.out.println();
     }
     

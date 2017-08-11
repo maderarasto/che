@@ -194,9 +194,6 @@ public class Player {
      * 
      * @param piece It specifies a piece which was taken.
      */
-    public void IncreasePoints(ChessPiece piece) {
-        points += piece.getValue();
-    }
     
     /**
      * It gets a color of player's pieces.
@@ -204,15 +201,6 @@ public class Player {
      */
     public Color getColor() {
         return color;
-    }
-    
-    
-    public boolean getCheckmate() {
-        return checkmate;
-    }
-    
-    public void setCheckmate(boolean check) {
-        checkmate = check;
     }
     
     /**
